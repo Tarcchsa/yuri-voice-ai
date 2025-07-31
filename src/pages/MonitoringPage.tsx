@@ -215,15 +215,15 @@ export const MonitoringPage: React.FC = () => {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full overflow-y-auto bg-gradient-to-br from-gray-50 via-white to-primary-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <div className="bg-gradient-to-r from-primary-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 border-b border-primary-200/50 dark:border-gray-700 px-6 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
               Monitoring Dashboard
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
               Track your AI automations and API usage
             </p>
           </div>
@@ -238,14 +238,14 @@ export const MonitoringPage: React.FC = () => {
                 { value: '30d', label: 'Last 30 days' },
                 { value: '90d', label: 'Last 90 days' },
               ]}
-              className="w-40"
+              className="w-40 bg-white/80 dark:bg-gray-700/80 border-primary-200/50"
             />
             
             <Button
               variant="outline"
               onClick={refreshData}
               disabled={isRefreshing}
-              className="flex items-center"
+              className="flex items-center border-primary-200/50 hover:border-primary-300 hover:bg-primary-50 dark:border-gray-600"
             >
               <RefreshCw className={cn('w-4 h-4 mr-2', isRefreshing && 'animate-spin')} />
               Refresh
@@ -256,10 +256,10 @@ export const MonitoringPage: React.FC = () => {
 
       <div className="p-6 space-y-6">
         {/* Connection Status */}
-        <Card>
+        <Card className="bg-gradient-to-r from-white to-primary-50/30 dark:from-gray-800 dark:to-gray-900 border-primary-200/50 dark:border-gray-600">
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <Activity className="w-5 h-5 mr-2" />
+            <CardTitle className="flex items-center text-xl">
+              <Activity className="w-6 h-6 mr-3 text-primary-600" />
               Integration Status
             </CardTitle>
           </CardHeader>
@@ -273,20 +273,29 @@ export const MonitoringPage: React.FC = () => {
               ].map((service) => (
                 <div
                   key={service.name}
-                  className="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-700"
+                  className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700/50 hover:shadow-md transition-all duration-200"
                 >
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">
                     {service.name}
                   </span>
                   <div className="flex items-center">
                     {service.config ? (
                       service.status ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
+                        <div className="flex items-center">
+                          <CheckCircle className="w-5 h-5 text-green-500 mr-1" />
+                          <span className="text-xs font-medium text-green-600 dark:text-green-400">Connected</span>
+                        </div>
                       ) : (
-                        <XCircle className="w-5 h-5 text-red-500" />
+                        <div className="flex items-center">
+                          <XCircle className="w-5 h-5 text-red-500 mr-1" />
+                          <span className="text-xs font-medium text-red-600 dark:text-red-400">Error</span>
+                        </div>
                       )
                     ) : (
-                      <AlertCircle className="w-5 h-5 text-yellow-500" />
+                      <div className="flex items-center">
+                        <AlertCircle className="w-5 h-5 text-amber-500 mr-1" />
+                        <span className="text-xs font-medium text-amber-600 dark:text-amber-400">Not Setup</span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -296,37 +305,46 @@ export const MonitoringPage: React.FC = () => {
         </Card>
 
         {/* Quick Actions */}
-        <Card>
+        <Card className="bg-gradient-to-r from-white to-purple-50/30 dark:from-gray-800 dark:to-gray-900 border-primary-200/50 dark:border-gray-600">
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="text-xl">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Button
                 onClick={() => executeQuickAction('test')}
                 disabled={!connectionStatus.n8n}
-                className="flex items-center justify-center p-4 h-auto"
+                className="flex items-center justify-center p-6 h-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500"
               >
-                <CheckCircle className="w-5 h-5 mr-2" />
-                Test Automation
+                <CheckCircle className="w-6 h-6 mr-3" />
+                <div className="text-left">
+                  <div className="font-semibold">Test Automation</div>
+                  <div className="text-xs opacity-90">Run system test</div>
+                </div>
               </Button>
               
               <Button
                 onClick={() => executeQuickAction('book_room')}
                 disabled={!connectionStatus.n8n}
-                className="flex items-center justify-center p-4 h-auto"
+                className="flex items-center justify-center p-6 h-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500"
               >
-                <Calendar className="w-5 h-5 mr-2" />
-                Book Room
+                <Calendar className="w-6 h-6 mr-3" />
+                <div className="text-left">
+                  <div className="font-semibold">Book Room</div>
+                  <div className="text-xs opacity-90">Reserve meeting room</div>
+                </div>
               </Button>
               
               <Button
                 onClick={() => executeQuickAction('schedule_meeting')}
                 disabled={!connectionStatus.n8n}
-                className="flex items-center justify-center p-4 h-auto"
+                className="flex items-center justify-center p-6 h-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500"
               >
-                <Clock className="w-5 h-5 mr-2" />
-                Schedule Meeting
+                <Clock className="w-6 h-6 mr-3" />
+                <div className="text-left">
+                  <div className="font-semibold">Schedule Meeting</div>
+                  <div className="text-xs opacity-90">Create calendar event</div>
+                </div>
               </Button>
             </div>
           </CardContent>
@@ -334,72 +352,84 @@ export const MonitoringPage: React.FC = () => {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-blue-200/50 dark:border-blue-700/50 hover:shadow-lg transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                  <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+                  <Activity className="w-8 h-8 text-white" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-1">
                     Total Executions
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-3xl font-bold text-blue-900 dark:text-blue-100">
                     {executionStats.total}
                   </p>
+                  <p className="text-xs text-blue-600/70 dark:text-blue-400/70">
+                    This week
+                  </p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border-green-200/50 dark:border-green-700/50 hover:shadow-lg transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                  <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg">
+                  <CheckCircle className="w-8 h-8 text-white" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-green-600 dark:text-green-400 mb-1">
                     Successful
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-3xl font-bold text-green-900 dark:text-green-100">
                     {executionStats.successful}
                   </p>
+                  <p className="text-xs text-green-600/70 dark:text-green-400/70">
+                    {executionStats.total > 0 ? Math.round((executionStats.successful / executionStats.total) * 100) : 0}% success rate
+                  </p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border-red-200/50 dark:border-red-700/50 hover:shadow-lg transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
-                  <XCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <div className="p-3 bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg">
+                  <XCircle className="w-8 h-8 text-white" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-red-600 dark:text-red-400 mb-1">
                     Failed
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-3xl font-bold text-red-900 dark:text-red-100">
                     {executionStats.failed}
+                  </p>
+                  <p className="text-xs text-red-600/70 dark:text-red-400/70">
+                    Need attention
                   </p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 border-purple-200/50 dark:border-purple-700/50 hover:shadow-lg transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                  <DollarSign className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg">
+                  <DollarSign className="w-8 h-8 text-white" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-purple-600 dark:text-purple-400 mb-1">
                     Total Cost
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-3xl font-bold text-purple-900 dark:text-purple-100">
                     $134.25
+                  </p>
+                  <p className="text-xs text-purple-600/70 dark:text-purple-400/70">
+                    This month
                   </p>
                 </div>
               </div>
@@ -410,20 +440,51 @@ export const MonitoringPage: React.FC = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Usage Chart */}
-          <Card>
+          <Card className="bg-gradient-to-br from-white to-blue-50/30 dark:from-gray-800 dark:to-gray-900 border-blue-200/50 dark:border-gray-600">
             <CardHeader>
-              <CardTitle>API Usage Trends</CardTitle>
+              <CardTitle className="text-xl flex items-center">
+                <Activity className="w-5 h-5 mr-2 text-blue-600" />
+                API Usage Trends
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={mockUsageData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="openai" stroke="#3B82F6" name="OpenAI Tokens" />
-                    <Line type="monotone" dataKey="googleTTS" stroke="#10B981" name="Google TTS Chars" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="date" 
+                      stroke="#6b7280"
+                      fontSize={12}
+                      tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    />
+                    <YAxis stroke="#6b7280" fontSize={12} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#fff', 
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                      }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="openai" 
+                      stroke="#3B82F6" 
+                      strokeWidth={3}
+                      name="OpenAI Tokens" 
+                      dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, stroke: '#3B82F6', strokeWidth: 2 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="googleTTS" 
+                      stroke="#10B981" 
+                      strokeWidth={3}
+                      name="Google TTS Chars" 
+                      dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, stroke: '#10B981', strokeWidth: 2 }}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -431,9 +492,12 @@ export const MonitoringPage: React.FC = () => {
           </Card>
 
           {/* Execution Status */}
-          <Card>
+          <Card className="bg-gradient-to-br from-white to-purple-50/30 dark:from-gray-800 dark:to-gray-900 border-purple-200/50 dark:border-gray-600">
             <CardHeader>
-              <CardTitle>Execution Status Distribution</CardTitle>
+              <CardTitle className="text-xl flex items-center">
+                <CheckCircle className="w-5 h-5 mr-2 text-purple-600" />
+                Execution Status Distribution
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-80">
@@ -446,25 +510,51 @@ export const MonitoringPage: React.FC = () => {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
-                      label
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      labelLine={false}
                     >
                       {pieData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#fff', 
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                      }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
+              </div>
+              
+              {/* Legend */}
+              <div className="flex justify-center space-x-4 mt-4">
+                {pieData.map((entry, index) => (
+                  <div key={index} className="flex items-center">
+                    <div 
+                      className="w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: entry.color }}
+                    ></div>
+                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      {entry.name}
+                    </span>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Recent Executions */}
-        <Card>
+        <Card className="bg-gradient-to-r from-white to-gray-50/30 dark:from-gray-800 dark:to-gray-900 border-gray-200/50 dark:border-gray-600">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Recent Executions</CardTitle>
+              <CardTitle className="text-xl flex items-center">
+                <Clock className="w-5 h-5 mr-2 text-gray-600" />
+                Recent Executions
+              </CardTitle>
               <Select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
@@ -474,7 +564,7 @@ export const MonitoringPage: React.FC = () => {
                   { value: 'failed', label: 'Failed' },
                   { value: 'running', label: 'Running' },
                 ]}
-                className="w-32"
+                className="w-32 bg-white/80 dark:bg-gray-700/80 border-gray-200/50"
               />
             </div>
           </CardHeader>
@@ -483,44 +573,59 @@ export const MonitoringPage: React.FC = () => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
-                    <th className="text-left py-2 font-medium text-gray-900 dark:text-white">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">
                       Workflow
                     </th>
-                    <th className="text-left py-2 font-medium text-gray-900 dark:text-white">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">
                       Status
                     </th>
-                    <th className="text-left py-2 font-medium text-gray-900 dark:text-white">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">
                       Start Time
                     </th>
-                    <th className="text-left py-2 font-medium text-gray-900 dark:text-white">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">
                       Duration
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredExecutions.map((execution) => (
-                    <tr key={execution.id} className="border-b border-gray-100 dark:border-gray-800">
-                      <td className="py-3 text-gray-900 dark:text-white">
-                        {execution.workflowName}
-                      </td>
-                      <td className="py-3">
-                        <span className={cn(
-                          'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
-                          execution.status === 'success' && 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
-                          execution.status === 'failed' && 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400',
-                          execution.status === 'running' && 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
-                        )}>
-                          {execution.status}
-                        </span>
-                      </td>
-                      <td className="py-3 text-gray-600 dark:text-gray-400">
-                        {execution.startTime.toLocaleString()}
-                      </td>
-                      <td className="py-3 text-gray-600 dark:text-gray-400">
-                        {execution.executionTime ? `${execution.executionTime}ms` : '-'}
+                  {filteredExecutions.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        <div className="flex flex-col items-center">
+                          <Activity className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-2" />
+                          <p>No executions found</p>
+                          <p className="text-xs">Try adjusting your filters</p>
+                        </div>
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    filteredExecutions.map((execution) => (
+                      <tr key={execution.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                        <td className="py-4 px-4 text-gray-900 dark:text-white font-medium">
+                          {execution.workflowName}
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className={cn(
+                            'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold',
+                            execution.status === 'success' && 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+                            execution.status === 'failed' && 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+                            execution.status === 'running' && 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                          )}>
+                            {execution.status === 'success' && <CheckCircle className="w-3 h-3 mr-1" />}
+                            {execution.status === 'failed' && <XCircle className="w-3 h-3 mr-1" />}
+                            {execution.status === 'running' && <Clock className="w-3 h-3 mr-1" />}
+                            {execution.status}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
+                          {execution.startTime.toLocaleString()}
+                        </td>
+                        <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
+                          {execution.executionTime ? `${execution.executionTime}ms` : '-'}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
